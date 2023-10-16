@@ -1,0 +1,11 @@
+name: 04- Call Reusable workflow
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  call_reusable-wf:
+    uses: .github/workflows/job-dependencies.yml@main
+    
