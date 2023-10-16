@@ -7,5 +7,5 @@ on:
 
 jobs:
   call_reusable-wf:
-    uses: .github/workflows/job-dependencies.yml@main
+    uses: anu-01/skyehusGHA/.github/workflows/job-dependencies.yml@main
     
