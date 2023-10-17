@@ -1,0 +1,43 @@
+name: 08-1 CI workflow
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    uses: githubabcs/gh-abcs-actions/.github/workflows/super-linter.yml@main
+  
+  ci:
+    name: CI
+    runs-on: $ {{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubunutu-latest]
+        node-version: [12, 14, 16]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node $ {{ matrix.node-version }} on ${{ matrix.os}}
+        uses: actions/setup-node@v3
+        with:
+          node-version: $ {{ matrix.node-version }}
+
+      - shell: bash
+        run: |
+          echo 'Test upload artifact' > output.log
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: output-log-file
+          path: output.log
+
+  test:
+      runs-on: ubuntu-latest
+      if: ${{ sucess() }}
+      steps:
+        - uses: actions/download-artifact@v2
+          with:
+            name: output-log-file
+      
