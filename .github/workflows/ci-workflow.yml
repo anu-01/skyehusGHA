@@ -35,7 +35,7 @@ jobs:
 
   test:
       runs-on: ubuntu-latest
-      if: ${{ sucess() }}
+      if: ${{ success() }}
       steps:
         - uses: actions/download-artifact@v2
           with:
