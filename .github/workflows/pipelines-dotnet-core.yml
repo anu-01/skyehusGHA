@@ -1,4 +1,4 @@
-name: Parts_Unlimited/pipelines-dotnet-core
+name: 06- Migration from ADO Parts_Unlimited/pipelines-dotnet-core
 on:
   push:
     branches:
