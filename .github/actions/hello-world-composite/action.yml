@@ -2,9 +2,9 @@ name: 'Hello World Composite Action'
 description: 'Greet Someone'
 inputs:
   who-to-greet: 
-  description: ' who to greet'
-  required: true
-  default: 'skyehus'
+    description: 'who to greet'
+    required: true
+    default: 'skyehus'
 
 outputs:
   random-number:
