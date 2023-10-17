@@ -1,4 +1,4 @@
-name: 08-1 CI workflow
+name: 08-1 CI workflow Demo
 
 on:
   pull_request:
