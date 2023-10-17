@@ -36,6 +36,7 @@ jobs:
 
   test:
       runs-on: ubuntu-latest
+      needs: ci
       if: ${{ success() }}
       steps:
         - uses: actions/download-artifact@v2
