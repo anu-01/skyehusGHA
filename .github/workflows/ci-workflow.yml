@@ -39,6 +39,7 @@ jobs:
       needs: ci
       if: ${{ success() }}
       steps:
+        - uses: actions/checkout@v3
         - uses: actions/download-artifact@v2
           with:
             name: output-log-file
