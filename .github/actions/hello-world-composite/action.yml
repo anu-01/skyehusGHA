@@ -1,0 +1,28 @@
+name: 'Hello World Composite Action'
+description: 'Greet Someone'
+inputs:
+  who-to-greet: 
+  description: ' who to greet'
+  required: true
+  default: 'skyehus'
+
+outputs:
+  random-number:
+    description: ' Random Number'
+    value: ${{ steps.random-number.outputs.random-id }}
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo "Hello from composite action ${{ inputs.who-to-greet }}"
+      shell: bash
+    - id: random-number
+      run: echo "::set-output name=random-id::$(echo $RANDOM)"
+      shell: bash
+    - uses: actions/hello-world-javascript-action@v1
+      with:
+        who-to-greet: "${{ inputs.who-to-greet }}"
+      id: hello
+    - name: Echo greetings time
+      run: echo " The time was ${{ steps.hello.outputs.time }}"
+      shell: bash
