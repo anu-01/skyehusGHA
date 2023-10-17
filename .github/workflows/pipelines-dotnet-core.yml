@@ -1,0 +1,45 @@
+name: Parts_Unlimited/pipelines-dotnet-core
+on:
+  push:
+    branches:
+    - master
+env:
+  buildConfiguration: Release
+jobs:
+  Build-Build:
+    runs-on:
+      - self-hosted
+      - default
+    if: success() || failure()
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3.5.0
+    - run: dotnet restore
+    # The dotnet CLI does not accept glob patterns. Consider using a solution file to act on multiple projects at once.
+    - name: Build
+      run: dotnet build **/*.csproj --configuration Release
+    # The dotnet CLI does not accept glob patterns. Consider using a solution file to act on multiple projects at once.
+    - name: Test
+      run: dotnet test **/*Tests/*.csproj --logger trx --results-directory "${{ runner.temp }}" --configuration ${{ env.BuildConfiguration }}
+    - name: Test
+      uses: NasAmin/trx-parser@v0.3.0
+      if: always()
+      with:
+        TRX_PATH: "${{ runner.temp }}"
+        REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Publish
+      run: dotnet publish --configuration ${{ env.BuildConfiguration }} --output ${{ runner.temp }}
+    - name: Publish Artifact
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        name: drop
+        path: "${{ runner.temp }}"
+  DeploytoProd-Deploy:
+    needs:
+    - Build-Build
+    runs-on:
+      - self-hosted
+      - default
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3.5.0
