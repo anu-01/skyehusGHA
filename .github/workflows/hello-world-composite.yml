@@ -1,0 +1,17 @@
+name: 05-1 Hello World Composite
+
+on:
+  workflow_dispatch:
+
+jobs:
+  composite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/hello-world-composite
+        id: hello-world
+        with:
+          who-to-greet: 'Skyehus group from composite action'
+
+      - run: echo random-number from composite action ${{ steps.hello-world.outputs.random-number }}
+        shell: bash
